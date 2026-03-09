@@ -42,7 +42,7 @@ The important part is the DEV_7D45, whicb corresponds to the Intel Arc B580. So 
 
 For an additional confirmation, enter the following in the terminal within the folder where you downloaded the llama intel optimized files and the huggingface image:
 
-<code> .\llama-cli.exe -m "Qwen3-4B-Q4_K_M.gguf" -ngl 99 -p "Write 300 words about Intel Arc B580.@ </code>
+<code>.\llama-cli.exe -m "Qwen3-4B-Q4_K_M.gguf" -ngl 99 -p "Write 300 words about Intel Arc B580." -no-cnv</code>
 
 Open Task Manager → Performance → GPU and watch  the dedicated GPU memory rise by a few GB and the compute / 3D activity increase.
 
