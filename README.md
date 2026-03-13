@@ -52,6 +52,73 @@ This shows the Arc GPU is actively running inference. The GPU compute engines ar
 
 Now lets just benchmark this setup.
 
+Run the following to get the benchmark with llama bench:
+
+<code>.\llama-bench.exe -m "Qwen3-4B-Q4_K_M.gguf" -ngl 99</code>
+
+For me this returns:
+
+| qwen3 4B Q4_K - Medium         |   2.32 GiB |     4.02 B | SYCL       |  99 |         pp512 |        260.52 ± 2.02 |
+| qwen3 4B Q4_K - Medium         |   2.32 GiB |     4.02 B | SYCL       |  99 |         tg128 |         12.71 ± 0.55 |
+
+What that means:
+
+pp512 = 260.52 t/s
+
+This is prompt processing speed for a 512-token prompt.
+
+This is the big number for RAG, long prompts, tool outputs, document-heavy workflows etc and it’s pretty good.
+
+tg128 = 12.71 t/s
+
+This is generation speed for 128 output tokens.
+
+This is the number people usually think of as “chat speed”.
+
+Now we will benchmark this against a local running Ollama instance using the same model but which is not taking advantage of the ARC GPU.
+
+From the terminal lets load the same model in Ollama:
+
+<code>ollama run qwen3:4b --verbose</code>
+
+and the we will use a simple prompt: "Write 300 words about Intel Arc B580 and local AI inference". At the end, Ollama should print verbose timing info.
+
+The output of this is:
+
+total duration:       2m44.2998187s
+load duration:        295.4256ms
+prompt eval count:    27 token(s)
+prompt eval duration: 1.8975681s
+prompt eval rate:     14.23 tokens/s
+eval count:           992 token(s)
+eval duration:        2m40.1077145s
+eval rate:            6.20 tokens/s
+
+This gives us clean set of comarative numbers:
+
+Prompt ingestion	14.23 tokens/sec
+Generation	6.20 tokens/sec
+
+For prompt processing, when taking advantage of the Intel GPU:
+260.52 / 14.23 = ~18.3x faster
+
+For token generation when taking advantage of the Intel GPU:
+12.71 / 6.20 = ~2.05x faster
+
+<img width="897" height="665" alt="image" src="https://github.com/user-attachments/assets/97f36ae9-53f1-4425-9f28-4ebd6a36db36" />
+
+Lets look at an example RAG query to understand what this can mean in real usage.
+
+If a system injects:
+
+4,000 tokens of context then:
+
+Ollama = 4000 / 14.23 ≈ 281 seconds
+Arc GPU = 4000 / 260 ≈ 15 seconds
+
+This is where GPU acceleration matters most.
+
+
 
 
 
