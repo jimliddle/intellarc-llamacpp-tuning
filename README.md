@@ -56,11 +56,11 @@ Run the following to get the benchmark with llama bench:
 
 <code>.\llama-bench.exe -m "Qwen3-4B-Q4_K_M.gguf" -ngl 99</code>
 
-For me this returns:
+For me this returns:<br/>
 <code>
 | qwen3 4B Q4_K - Medium         |   2.32 GiB |     4.02 B | SYCL       |  99 |         pp512 |        260.52 ± 2.02 |
 | qwen3 4B Q4_K - Medium         |   2.32 GiB |     4.02 B | SYCL       |  99 |         tg128 |         12.71 ± 0.55 |
-</code>
+</code><br/>
 What that means:
 
 <code>pp512 = 260.52 t/s</code>
@@ -83,7 +83,7 @@ From the terminal lets load the same model in Ollama:
 
 and the we will use a simple prompt: "Write 300 words about Intel Arc B580 and local AI inference". At the end, Ollama should print verbose timing info.
 
-The output of this is:
+The output of this is:<br/>
 <code>
 total duration:       2m44.2998187s
 load duration:        295.4256ms
@@ -93,7 +93,7 @@ prompt eval rate:     14.23 tokens/s
 eval count:           992 token(s)
 eval duration:        2m40.1077145s
 eval rate:            6.20 tokens/s
-</code>
+</code><br/>
 This gives us clean set of comarative numbers:
 
 Prompt ingestion	14.23 tokens/sec
